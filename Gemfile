@@ -11,6 +11,10 @@ gem 'mysql2'
 
 gem 'yajl-ruby', :require => 'yajl'
 gem 'nokogiri'
+gem "ruby-openid"
+gem "rack-openid"
+gem "oauth"
+gem "oauth-plugin", ">=0.4.0.pre1"
 
 # Paginator
 # gem "kaminari"
@@ -29,7 +33,7 @@ gem 'nokogiri'
 # gem "haml-rails"
 # gem 'validates_timeliness', '~> 3.0.5'
 # gem 'acts-as-taggable-on'
- 
+
 # gem 'hoptoad_notifier'
 # gem 'newrelic_rpm'
 
@@ -56,7 +60,7 @@ end
 # gem 'typhoeus'
 # gem 'rest-client', :require => 'restclient'
 
-# Memcached client 
+# Memcached client
 # gem "dalli"
 # gem "memcache-client", :require => "memcache"
 
