@@ -30,11 +30,15 @@ class User < ActiveRecord::Base
   end
 
   def pixnet_link
+    return @pixnet_link if @pixnet_link
     begin
       ret = parse_pixnet_info
     rescue
     else
-      return ret["user"]["link"] if ret.is_a?(Hash) && !ret["user"]["link"].empty?
+      if ret.is_a?(Hash) && !ret["user"]["link"].empty?
+        @pixnet_link = ret["user"]["link"]
+        return @pixnet_link
+      end
     end
 
     return "http://#{login}.pixnet.net"
@@ -66,6 +70,7 @@ class User < ActiveRecord::Base
 
   def parse_pixnet_info
     require 'open-uri'
+    require 'yajl/json_gem'
     return JSON.parse(open("https://emma.pixnet.cc/users/#{login}").read)
   end
 
