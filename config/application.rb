@@ -1,9 +1,9 @@
 require File.expand_path('../boot', __FILE__)
 
-  require 'rails'
-  require 'active_record/railtie'
-  require 'action_controller/railtie'
-  require 'action_mailer/railtie'
+require 'rails'
+require 'active_record/railtie'
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
 
 
 # If you have a Gemfile, require the gems listed there, including any gems
@@ -12,9 +12,9 @@ Bundler.require(:default, Rails.env) if defined?(Bundler)
 
 module Pixassistant
   class Application < Rails::Application
-  Time::DATE_FORMATS.merge!(:default => "%Y/%m/%d %I:%M %p", :ymd => "%Y/%m/%d")
-  
-config.action_view.javascript_expansions[:defaults] = %w(jquery rails)
+    Time::DATE_FORMATS.merge!(:default => "%Y/%m/%d %I:%M %p", :ymd => "%Y/%m/%d")
+
+    config.action_view.javascript_expansions[:defaults] = %w(jquery rails)
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
