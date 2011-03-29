@@ -1,14 +1,33 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-  <title>Pixassistant</title>
-  <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag :defaults %>
-  <%= csrf_meta_tag %>
-</head>
-<body>
-
-<%= yield %>
-
-</body>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=7" />
+    <title>PIXNET 小幫手</title>
+    <link rel="stylesheet" type="text/css" href="//s.pixfs.net/panel/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="//s.pixfs.net/panel/css/style.css" />
+    <%= javascript_include_tag :defaults %>
+    <%= csrf_meta_tag %>
+  </head>
+  <body>
+    <div id="header">
+      <div id="navbar">
+        <ul id="user-links">
+          <% if current_user %>
+            <li><%= link_to "登出 ( #{current_user.login} )", logout_path %></li>
+          <% else %>
+            <li><%= link_to "登入", login_path %></li>
+          <% end %>
+        </ul>
+      </div>
+      <h1 id="home">PIXNET 小幫手</h1>
+      <div id="menubar">
+        <ul>
+          <!--<li><a href="/colo">colocation</a></li>-->
+          <li><a href="/comments">部落格迴響</a></li>
+        </ul>
+      </div>
+    </div>
+    <%= yield %>
+  </body>
 </html>
