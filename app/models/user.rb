@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
 
   attr_accessible :login, :email, :nickname, :identity_url
 
+  has_one  :pixnet, :class_name => "PixnetToken", :dependent=>:destroy
+
   def self.create_from_pixnet_openid(registration, identity_url)
     User.new.tap do |user|
       user.login = registration["email"].gsub("@pixnet.net", "")
@@ -70,7 +72,6 @@ class User < ActiveRecord::Base
 
   def parse_pixnet_info
     require 'open-uri'
-    require 'yajl/json_gem'
     return JSON.parse(open("https://emma.pixnet.cc/users/#{login}").read)
   end
 

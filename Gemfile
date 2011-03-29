@@ -10,11 +10,12 @@ gem 'mysql2'
 # gem 'moneta'
 
 gem 'yajl-ruby', :require => 'yajl'
+gem 'json'
 gem 'nokogiri'
 gem "ruby-openid"
 gem "rack-openid"
 gem "oauth"
-gem "oauth-plugin", ">=0.4.0.pre1"
+gem "oauth-plugin", "0.4.0.pre1"
 
 # Paginator
 # gem "kaminari"
