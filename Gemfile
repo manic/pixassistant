@@ -48,6 +48,7 @@ group :test, :development do
   gem "rcov"
   gem "delorean"
   gem "watchr"
+  gem "annotate-models"
   # gem "capybara"
   # gem 'yard'
   # gem "bluecloth"

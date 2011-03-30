@@ -10,7 +10,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110329072907) do
+ActiveRecord::Schema.define(:version => 20110330092315) do
+
+  create_table "assistances", :force => true do |t|
+    t.integer  "master_id"
+    t.string   "assistant_name",    :limit => 32
+    t.string   "assistant_id",                    :default => "0"
+    t.boolean  "perm_blog_comment",               :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "assistances", ["assistant_id"], :name => "index_assistances_on_assistant_id"
+  add_index "assistances", ["assistant_name"], :name => "index_assistances_on_assistant_name"
+  add_index "assistances", ["master_id", "assistant_id"], :name => "index_assistances_on_master_id_and_assistant_id", :unique => true
+  add_index "assistances", ["master_id", "assistant_name"], :name => "index_assistances_on_master_id_and_assistant_name", :unique => true
+  add_index "assistances", ["master_id"], :name => "index_assistances_on_master_id"
 
   create_table "consumer_tokens", :force => true do |t|
     t.integer  "user_id"

@@ -1,3 +1,17 @@
+# == Schema Information
+# Schema version: 20110330092315
+#
+# Table name: users
+#
+#  id           :integer(4)      not null, primary key
+#  login        :string(255)
+#  email        :string(255)
+#  nickname     :string(255)
+#  identity_url :string(255)
+#  created_at   :datetime
+#  updated_at   :datetime
+#
+
 class User < ActiveRecord::Base
   validates :login, :presence   => true,
                     :uniqueness => true,
