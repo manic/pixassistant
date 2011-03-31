@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(:version => 20110330092315) do
 
   add_index "assistances", ["assistant_id"], :name => "index_assistances_on_assistant_id"
   add_index "assistances", ["assistant_name"], :name => "index_assistances_on_assistant_name"
-  add_index "assistances", ["master_id", "assistant_id"], :name => "index_assistances_on_master_id_and_assistant_id", :unique => true
+  add_index "assistances", ["master_id", "assistant_id"], :name => "index_assistances_on_master_id_and_assistant_id"
   add_index "assistances", ["master_id", "assistant_name"], :name => "index_assistances_on_master_id_and_assistant_name", :unique => true
   add_index "assistances", ["master_id"], :name => "index_assistances_on_master_id"
 

@@ -23,12 +23,14 @@
       <h1 id="home">PIXNET 小幫手</h1>
       <div id="menubar">
         <ul>
-          <!--<li><a href="/colo">colocation</a></li>-->
-          <li><a href="/comments">部落格迴響</a></li>
+          <li><%= link_to "小幫手設定", assistances_path %></li>
+          <li><%= link_to "部落格迴響", blog_comments_path %></li>
           <li><%= link_to "OAuth", oauth_consumer_path("pixnet") %></li>
         </ul>
       </div>
     </div>
-    <%= yield %>
+    <div id="page-body" class="toolbar-hide">
+      <%= yield %>
+    </div>
   </body>
 </html>

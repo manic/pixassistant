@@ -9,4 +9,10 @@ Pixassistant::Application.routes.draw do
 
   root :to => "home#index"
 
+  namespace "blog" do
+    resources :comments
+  end
+
+  resources :assistances
+
 end
