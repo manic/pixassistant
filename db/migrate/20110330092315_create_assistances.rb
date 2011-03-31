@@ -14,7 +14,7 @@ class CreateAssistances < ActiveRecord::Migration
     add_index :assistances, :assistant_id
     add_index :assistances, :assistant_name
     add_index :assistances, [:master_id, :assistant_name], :unique => true
-    add_index :assistances, [:master_id, :assistant_id], :unique => true
+    add_index :assistances, [:master_id, :assistant_id]
   end
 
   def self.down
