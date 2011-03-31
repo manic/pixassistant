@@ -19,7 +19,7 @@ class OpenidsController < ApplicationController
       user = User.create_from_pixnet_openid(registration, identity_url)
     end
     self.current_user = user
-    redirect_to('/')
+    redirect_back_or_default('/')
   end
 
 end
