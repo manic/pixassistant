@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(:version => 20110330092315) do
   create_table "assistances", :force => true do |t|
     t.integer  "master_id"
     t.string   "assistant_name",    :limit => 32
-    t.string   "assistant_id",                    :default => "0"
+    t.integer  "assistant_id",                    :default => 0
     t.boolean  "perm_blog_comment",               :default => false
     t.datetime "created_at"
     t.datetime "updated_at"

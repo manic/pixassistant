@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
   attr_accessible :login, :email, :nickname, :identity_url
 
   has_one  :pixnet, :class_name => "PixnetToken", :dependent=>:destroy
+  has_many :assistances, :foreign_key => :master_id
 
   def self.create_from_pixnet_openid(registration, identity_url)
     User.new.tap do |user|
@@ -84,14 +85,33 @@ class User < ActiveRecord::Base
     service("profile")
   end
 
-  def parse_pixnet_info
-    require 'open-uri'
-    return JSON.parse(open("https://emma.pixnet.cc/users/#{login}").read)
+  def add_assistant(user)
+    self.assistances.create({
+      :assistant_name => user
+    })
+  end
+
+  def has_assistant?(user)
+    assistant = self.assistances.named(user).first
+    return assistant.present?
+  end
+
+  def remove_assistant(user)
+    assistant = self.assistances.named(user).first
+    assistant.destroy
+    self.reload
+    return true
   end
 
   protected
   def service(name)
     return "#{pixnet_link}/#{name}"
   end
+
+  def parse_pixnet_info
+    require 'open-uri'
+    return JSON.parse(open("http://emma.pixnet.cc/users/#{login}").read)
+  end
+
 
 end

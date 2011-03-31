@@ -4,7 +4,7 @@ class CreateAssistances < ActiveRecord::Migration
 
       t.integer :master_id
       t.string  :assistant_name, :limit => 32
-      t.string  :assistant_id, :default => 0
+      t.integer :assistant_id, :default => 0
       t.boolean :perm_blog_comment, :default => false
 
       t.timestamps
