@@ -1,68 +1,113 @@
-<div id="sidepanel">
-  <h2 id="current-panel">帳戶管理後台</h2>
-  <div class="panel-links">
-    <div class="panel-group">
-      <h3 id="panel-account-config"><span class="hide">帳號管理與設定</span></h3>
-      <ul class="panel-ul">
-        <li class="active"><%= link_to "#{image_tag('//s.pixfs.net/panel/images/icons/admin.gif')}小幫手設定與管理".html_safe, assistances_path %></li>
+<div id="page-body" class="toolbar-hide">
+  <div id="sidepanel">
+    <h2 id="current-panel">帳戶管理後台</h2>
+    <div class="panel-links">
+      <div class="panel-group">
+        <h3 id="panel-account-config"><span class="hide">帳號管理與設定</span></h3>
+        <ul class="panel-ul">
+          <li class="active"><%= link_to "#{image_tag('//s.pixfs.net/panel/images/icons/admin.gif')}小幫手設定與管理".html_safe, assistances_path %></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div id="workspace">
+    <div id="breadcrumb">
+      <ul>
+        <li >
+        <span class="crumb">帳戶管理</span>
+        <span class="raquo">&raquo;</span>
+        </li>
+        <li >
+        <span class="crumb">帳號管理與設定</span>
+        <span class="raquo">&raquo;</span>
+        </li>
+        <li class="active">
+        <span class="crumb">小幫手設定與管理</span>
+        <span class="raquo">&raquo;</span>
+        </li>
+      </ul>
+    </div><!-- breadcrumb -->
+    <div id="page-tabs">
+      <ul>
+        <li class="active"><%= link_to "新增／編輯小幫手", assistances_path %><li>
+        <li ><a href="/account/assistantlogs">小幫手日誌</a></li>
       </ul>
     </div>
-  </div>
+    <% form_for @new_assistance, :html => { :id => :create_assistant } do |f| %>
+      <div class="content">
+        <h3 class="section-header" id="basic-info"><span class="hide">新增小幫手</span></h3>
+        <table class="settings-table th-large" cellspacing="0">
+          <tr>
+            <th>
+              <label for="a1">小幫手列表</label>
+            </th>
+            <td>
+              <%= @assistances.collect{|a| a.assistant_name}.join(', ') %>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <label for="ae">新增小幫手</label>
+            </th>
+            <td>
+              <%= f.text_field :assistant_name, { :size => 32, :maxlength => 32  } %>
+              <button title="新增小幫手" type="submit"><span>新增</span></button>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <label for="ae">編輯小幫手</label>
+            </th>
+            <td>
+              <select name="assistant_id" id="select_assistance">
+                <option value="-1">請選擇</option>
+                <% @assistances.each do |assistance| -%>
+                  <option value="<%= assistance.id %>"><%= assistance.assistant_name %></option>
+                <% end -%>
+              </select>
+              <button title="編輯小幫手" id="edit_assistance_button"><span>編輯</span></button>
+              <button title="刪除小幫手" id="delete_assistance_button"><span>刪除</span></button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    <% end %>
+    <% if @assistance %>
+      <%= render :partial => "assistances/edit", :locals => {:assistance => @assistance} %>
+    <% end -%>
+  </div><!-- workspace -->
 </div>
-<div id="workspace">
-  <div id="breadcrumb">
-    <ul>
-      <li >
-      <span class="crumb">帳戶管理</span>
-      <span class="raquo">&raquo;</span>
-      </li>
-      <li >
-      <span class="crumb">帳號管理與設定</span>
-      <span class="raquo">&raquo;</span>
-      </li>
-      <li class="active">
-      <span class="crumb">小幫手設定與管理</span>
-      <span class="raquo">&raquo;</span>
-      </li>
-    </ul>
-  </div><!-- breadcrumb -->
-  <div id="page-tabs">
-    <ul>
-      <li class="active"><%= link_to "新增／編輯小幫手", assistances_path %><li>
-      <li ><a href="/account/assistantlogs">小幫手日誌</a></li>
-    </ul>
-  </div>
-  <% form_for @assistance, :html => { :id => :create_assistant } do |f| %>
-    <div class="content">
-      <h3 class="section-header" id="basic-info"><span class="hide">新增小幫手</span></h3>
-      <table class="settings-table th-large" cellspacing="0">
-        <tr>
-          <th>
-            <label for="a1">小幫手列表</label>
-          </th>
-          <td>
-            <%= @assistances.collect{|a| a.assistant_name}.join(', ') %>
-          </td>
-        </tr>
-        <tr>
-          <th>
-            <label for="ae">新增小幫手</label>
-          </th>
-          <td>
-            <%= f.text_field :assistant_name, { :size => 32, :maxlength => 32  } %>
-            <button title="新增小幫手" type="submit"><span>新增</span></button>
-          </td>
-        </tr>
-        <tr>
-          <th>
-            <label for="ae">編輯小幫手</label>
-          </th>
-          <td>
-            <select name="assistant_id"><option value="-1">請選擇</option></select>         <button title="編輯小幫手" onclick="redirect_edit();return false;"><span>編輯</span></button>
-            <button title="刪除小幫手" onclick="return confirm_delete();"><span>刪除</span></button>
-          </td>
-        </tr>
-      </table>
+<div id="footer">
+  <% if @assistance -%>
+    <div id="submit-box">
+      <button type="submit" title="儲存設定" onclick="$('#update_assistant').submit();">
+        <span>儲存設定</span>
+      </button>
     </div>
-  <% end %>
-</div><!-- workspace -->
+  <% end -%>
+</div>
+<script type="text/javascript">
+  <!--
+  $(function() {
+    $('#edit_assistance_button').click(function(){
+      var param_assistant_id = $('#select_assistance').val();
+      if ('-1' != param_assistant_id) {
+        document.location.href = '/assistances/' + param_assistant_id;
+      }
+      return false;
+    });
+    $('#delete_assistance_button').click(function(){
+      var param_assistant_id = $('#select_assistance').val();
+      var a = $('<a href="/assistances/' + param_assistant_id + '" data-method="delete" rel="nofollow" data-confirm="你確定嗎">Delete</a>');
+      if ('-1' != param_assistant_id) {
+        a.hide().appendTo('body');
+        a.click();
+      }
+      return false;
+    });
+    <% if @assistance -%>
+      $('#select_assistance').val('<%= @assistance.id %>');
+    <% end -%>
+  });
+  //-->
+</script>

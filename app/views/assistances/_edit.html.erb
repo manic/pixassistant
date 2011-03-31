@@ -1,0 +1,17 @@
+<div class="content">
+  <h3 class="section-header" id="basic-info"><span class="hide">編輯小幫手：<%= assistance.assistant_name %></span></h3>
+  <% form_for assistance, :html => { :id => :update_assistant } do |f| -%>
+    <table class="settings-table th-large" cellspacing="0">
+      <tbody>
+        <tr>
+          <th class="th-info">部落格</th>
+          <th>迴響回覆/刪除</th>
+          <td>
+            <label><%= f.radio_button(:perm_blog_comment, true) %> 有權限</label>
+            <label><%= f.radio_button(:perm_blog_comment, false) %> 無權限</label>
+          </td>
+        </tr>
+      </body>
+    </table>
+  <% end -%>
+</div>
