@@ -2,7 +2,7 @@ module ApplicationHelper
 
   def comment_author_avatar(comment)
     if 'pixnet' == comment["author_login_type"]
-      avatar = comment['user']['avatar']
+      avatar = comment['user']['cavatar']
     elsif 'openid' == comment['author_login_type']
       avatar = comment['openid_associate']['avatar']
     else
