@@ -84,8 +84,7 @@
       </ul>
     </div>
     <div id="frame" class="frame-t-f">
-      <form action="" method="post" name="blogcomment-form" id="blogcomment-form">
-        <input type="hidden" name="sToken" value="bf5d72a5ee8521c9175b24a16b27e834"><input type="hidden" name="todo" id="blogcomment-form-todo">
+      <%= form_tag(:url => "/", :method => :post, :remote => true) do %>
         <table id="comments-list-table" class="list-table selectable" cellspacing="0">
           <col width="25" class="cell-checkbox">
           <colgroup span="2" class="cell-userdata">
@@ -100,7 +99,7 @@
           </tr>
           <%= render :partial => "blog/comments/comment", :collection => @comments %>
         </table>
-      </form>
+      <% end %>
     </div>
   </div>
 </div>
@@ -119,3 +118,31 @@
     </form>
   </div>
 </div>
+<script type="text/javascript">
+<!--
+$(function() {
+  $('.do-reply, .cancel-reply').click(function() {
+    $(this).parents('tr').find('.do-reply, .reply-area').toggle();
+    return false;
+  });
+  $('.save-reply').click(function() {
+    var id = $(this).data('id');
+    var action = "/blog/comments/" + id + "/reply",
+        $tr = $(this).parents('tr'),
+        csrf_token = $('meta[name=csrf-token]').attr('content'),
+        csrf_param = $('meta[name=csrf-param]').attr('content'),
+        reply_body = $('textarea[data-id="' + id +  '"]').val();
+    $.post(action, {
+      csrf_param: csrf_token,
+      "body": reply_body
+    }, function(ret) {
+      if (ret.error == '0') {
+        $('div.reply-content[data-id="' + id + '"]').text(reply_body);
+        $tr.find('.do-reply, .reply-area').toggle();
+      }
+    }, 'json');
+    return false;
+  });
+});
+//-->
+</script>

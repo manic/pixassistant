@@ -1,4 +1,4 @@
-<tr <%= 'class="spam"'.html_safe if comment['is_spam'] != 0 %>>
+<tr <%= 'class="spam"'.html_safe if comment['is_spam'] != 0 %> data-id="<%= comment['id'] %>">
   <td class="cell-checkbox">
     <input type="checkbox" class="comment" name="blogcomment_id[]" value="<%= comment["id"] %>">
   </td>
@@ -25,13 +25,16 @@
         <%= link_to "Re: #{comment["article"]["title"]}", comment["link"], :target => "_blank" %>
       </div>
       <div class="post-text">
-        <%= simple_format(h(comment["body"]).gsub!(/\n/, '<br>')) %>
+        <%= comment['body'].gsub(/\n/, '<br>').html_safe %>
       </div>
         <div class="post-reply">
-          <% if comment["reply"].present? %>
-            <div id="post-reply-30662867-body" onclick="javascript:pix.editblogcommentreply(30662867);"><%= comment["reply"]["body"] %></div>
-          <% end %>
-          <a id="post-reply-30662867-button" href="javascript:pix.editblogcommentreply(30662867);">回覆</a>
+          <div class="do-reply reply-content" data-id="<%= comment["id"] %>"><%= comment["reply"]["body"] if comment["reply"].present? %></div>
+          <span class="reply-area" style="display:none">
+            <textarea class="input-style input-textarea" name="content" data-id="<%= comment["id"] %>" rows="5"><%= comment["reply"]["body"] if comment["reply"].present? %></textarea>
+            <a href="javascript:;" class="save-reply" data-id="<%= comment["id"] %>">儲存</a>
+            <a href="javascript:;" class="cancel-reply">取消</a>
+          </span>
+          <a class="do-reply" href="javascript:;">回覆</a>
         </div>
     </div>
   </td>
