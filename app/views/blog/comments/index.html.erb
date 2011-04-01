@@ -98,9 +98,7 @@
             <th colspan="2">留言人／時間</th>
             <th>留言內容</th>
           </tr>
-          <% @comments.each do |comment| %>
-            <%= render :partial => "blog/comments/comment", :locals => {:comment => comment} %>
-          <% end %>
+          <%= render :partial => "blog/comments/comment", :collection => @comments %>
         </table>
       </form>
     </div>
