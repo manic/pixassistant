@@ -27,12 +27,12 @@
       <div class="post-text">
         <%= simple_format(h(comment["body"]).gsub!(/\n/, '<br>')) %>
       </div>
-      <% if comment["reply"].present? %>
         <div class="post-reply">
-          <div id="post-reply-30662867-body" onclick="javascript:pix.editblogcommentreply(30662867);"><%= comment["reply"]["body"] %></div>
+          <% if comment["reply"].present? %>
+            <div id="post-reply-30662867-body" onclick="javascript:pix.editblogcommentreply(30662867);"><%= comment["reply"]["body"] %></div>
+          <% end %>
           <a id="post-reply-30662867-button" href="javascript:pix.editblogcommentreply(30662867);">回覆</a>
         </div>
-      <% end %>
     </div>
   </td>
 </tr>
