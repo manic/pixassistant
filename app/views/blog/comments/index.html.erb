@@ -1,0 +1,123 @@
+<div id="page-body" class="toolbar-hide">
+  <div id="sidepanel">
+    <h2 id="current-panel">部落格後台</h2>
+    <div class="panel-links">
+      <div class="panel-selector">
+        <select name="master">
+          <option value="?master=Manic">Manic / 沒力小僧，羞道人的糟糕日誌</option>
+          <option value="?master=manictest1">manictest1 / test blog for Manica</option>
+        </select>
+      </div>
+      <div class="panel-group">
+        <h3 id="panel-blog-post"><span class="hide">文章管理</span></h3>
+        <ul class="panel-ul">
+          <li class="active"><%= link_to "#{image_tag('//s.pixfs.net/panel/images/icons/comments.gif')}迴響管理".html_safe, blog_comments_path %></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div id="workspace">
+    <div id="breadcrumb">
+      <ul>
+        <li >
+        <span class="crumb">部落格</span>
+        <span class="raquo">&raquo;</span>
+        </li>
+        <li >
+        <span class="crumb">文章管理</span>
+        <span class="raquo">&raquo;</span>
+        </li>
+        <li >
+        <span class="crumb">迴響／引用管理</span>
+        <span class="raquo">&raquo;</span>
+        </li>
+        <li class="active">
+        <span class="crumb">迴響管理</span>
+        <span class="raquo">&raquo;</span>
+        </li>
+      </ul>
+    </div><!-- breadcrumb -->
+    <div id="page-tabs">
+      <ul>
+        <li class="active"><%= link_to '迴響管理', blog_comments_path %></li>
+      </ul>
+    </div>
+    <div id="function-bar">
+      <ul class="filter-bar-ul">
+        <li class="filters-li">
+        <select class="mini-select" id="filter" onchange="pix.change_display(this.value); ">
+          <option value="all">顯示所有迴響</option>
+          <option value="nospam">只顯示非廣告迴響</option>
+          <option value="noreply">只顯示未回覆的迴響</option>
+
+          <option value="whisper">只顯示悄悄話迴響</option>
+        </select>
+        </li>
+      </ul>
+      <ul class="function-bar-ul">
+        <li class="functions-li">
+        <button type="button" class="drop" title="設定悄悄話">
+          <span>設定／取消悄悄話</span>
+        </button>
+        <div class="drop-menu default" id="set-comments-menu">
+          <ul>
+            <li><a href="#" onclick="pix.openComment(false); return false;"><span><img src="//s.pixfs.net/panel/images/icons/lock.gif" alt=""></span>設為悄悄話</a></li>
+            <li><a href="#" onclick="pix.openComment(true); return false;">取消悄悄話</a></li>
+          </ul>
+        </div>
+        </li>
+        <li class="functions-li">
+        <button type="button" title="加入留言/迴響黑名單" id="btnBlackFriend">
+          <span><img src="//s.pixfs.net/panel/images/icons/user_blocked.gif" alt="加入留言/迴響黑名單">加入留言/迴響黑名單</span>
+        </button>
+        </li>
+        <li class="functions-li">
+        <button type="button" title="檢舉廣告留言" id="btnReportSpam">
+          <span><img src="//s.pixfs.net/panel/images/icons/flag_red.gif" alt="檢舉廣告留言">檢舉廣告留言</span>
+        </button>
+        </li>
+        <li class="functions-li">
+        <button type="button" title="刪除" onclick="pix.deleteblogcomment()">
+          <span><img src="//s.pixfs.net/panel/images/icons/delete-bin.gif" alt="刪除"> 刪除</span>
+        </button>
+        </li>
+      </ul>
+    </div>
+    <div id="frame" class="frame-t-f">
+      <form action="" method="post" name="blogcomment-form" id="blogcomment-form">
+        <input type="hidden" name="sToken" value="bf5d72a5ee8521c9175b24a16b27e834"><input type="hidden" name="todo" id="blogcomment-form-todo">
+        <table id="comments-list-table" class="list-table selectable" cellspacing="0">
+          <col width="25" class="cell-checkbox">
+          <colgroup span="2" class="cell-userdata">
+            <col width="70" class="cell-avatar">
+            <col width="140" class="cell-userinfo">
+          </colgroup>
+          <col class="cell-content">
+          <tr>
+            <th><input type="checkbox" class="comment_all"></th>
+            <th colspan="2">留言人／時間</th>
+            <th>留言內容</th>
+          </tr>
+          <% @comments.each do |comment| %>
+            <%= render :partial => "blog/comments/comment", :locals => {:comment => comment} %>
+          <% end %>
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
+<div id="footer">
+  <div id="page-selector" style="float:left;">
+    <form id="page-form" action="/blog/comment" method="get">
+      <input type="hidden" name="realpage" value="1">
+      <ul>
+        <li><a href="/blog/comment?filter=nospam" class="page-select-first" onclick="return pix.change_page(1);"><span>最前頁</span></a></li>
+        <li><a href="/blog/comment?filter=nospam&amp;page=1" class="page-select-prev" onclick="return pix.change_page_delta(-1);"><span>上一頁</span></a></li>
+        <li><input type="text" value="1" name="page" class="current"><input type="text" value="/35" class="total" readonly="readonly" id="totalpage"></li>
+        <li><a href="/blog/comment?filter=nospam&amp;page=2" class="page-select-next" onclick="return pix.change_page_delta(1);"><span>下一頁</span></a></li>
+        <li><a href="/blog/comment?filter=nospam&amp;page=35" class="page-select-last" onclick="return pix.change_page(-1)"><span>最末頁</span></a></li>
+      </ul>
+      <input type="submit">
+    </form>
+  </div>
+</div>

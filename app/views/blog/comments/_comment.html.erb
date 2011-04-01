@@ -1,0 +1,38 @@
+<tr <%= 'class="spam"'.html_safe if comment['is_spam'] != 0 %>>
+  <td class="cell-checkbox">
+    <input type="checkbox" class="comment" name="blogcomment_id[]" value="<%= comment["id"] %>">
+  </td>
+  <td class="cell-avatar"><div>
+      <%= comment_author_avatar(comment) %>
+  </div></td>
+  <td class="cell-userinfo">
+    <div class="post-user">
+      <%= comment_author_icon(comment) %>
+      <%= comment_author_link(comment) %>
+    </div>
+    <div class="post-date"><%= Time.at(comment["created_at"].to_i).strftime('%Y/%m/%d') %></div>
+    <div class="post-time"><%= Time.at(comment["created_at"].to_i).strftime('%H:%M') %></div>
+  </td>
+  <td class="cell-content">
+    <% if comment['is_spam'] != 0 %>
+      <div class="post-spam" style="padding-bottom:10px;">
+        <div class="gray">此留言被標示為廣告留言 － </div>
+        <button class="positive" type="button" onclick="$('.comment').removeAttr('checked'); $(this).parents('tr').find(':checkbox').attr('checked', 'checked'); pix.p.blog.markAsHam();"><span><img alt="這不是廣告留言" src="//s.pixfs.net/panel/images/icons/flag_green.gif"/>這不是廣告留言</span></button>
+      </div>
+    <% end %>
+    <div class="post-content">
+      <div class="post-title">
+        <%= link_to "Re: #{comment["article"]["title"]}", comment["link"], :target => "_blank" %>
+      </div>
+      <div class="post-text">
+        <%= simple_format(h(comment["body"]).gsub!(/\n/, '<br>')) %>
+      </div>
+      <% if comment["reply"].present? %>
+        <div class="post-reply">
+          <div id="post-reply-30662867-body" onclick="javascript:pix.editblogcommentreply(30662867);"><%= comment["reply"]["body"] %></div>
+          <a id="post-reply-30662867-button" href="javascript:pix.editblogcommentreply(30662867);">回覆</a>
+        </div>
+      <% end %>
+    </div>
+  </td>
+</tr>
