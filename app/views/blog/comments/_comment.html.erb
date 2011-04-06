@@ -22,6 +22,9 @@
     <% end %>
     <div class="post-content">
       <div class="post-title">
+        <% if comment["is_open"] != "1" %>
+          <span class="private"><img src="//s.pixfs.net/panel/images/icons/lock.gif" alt="悄悄話"> 悄悄話:</span>
+        <% end %>
         <%= link_to "Re: #{comment["article"]["title"]}", comment["link"], :target => "_blank" %>
       </div>
       <div class="post-text">
