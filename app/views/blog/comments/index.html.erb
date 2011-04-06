@@ -76,7 +76,7 @@
         </button>
         </li>
         <li class="functions-li">
-        <button type="button" title="刪除" onclick="pix.deleteblogcomment()">
+        <button type="button" title="刪除" id="btn-delete">
           <span><img src="//s.pixfs.net/panel/images/icons/delete-bin.gif" alt="刪除"> 刪除</span>
         </button>
         </li>
@@ -146,8 +146,16 @@ $(function() {
     return false;
   });
 
+  $('#btn-delete').click(function(){
+  });
+
   $('#filter').change(function() {
     document.location.href = base_url + '?filter=' + $(this).val();
+  });
+
+  $(':checkbox.comment_all').click(function() {
+    var val = $(this).attr('checked');
+    $(':checkbox.comment').attr('checked', val);
   });
 
   $('#filter').val('<%= @filter %>');
