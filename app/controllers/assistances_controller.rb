@@ -3,8 +3,12 @@ class AssistancesController < ApplicationController
   before_filter :login_required
 
   def index
-    @new_assistance = Assistance.new
-    @assistances = current_user.assistances
+    if current_user.pixnet.present?
+      @new_assistance = Assistance.new
+      @assistances = current_user.assistances
+    else
+      render "/common/need_connect"
+    end
   end
 
   def create
