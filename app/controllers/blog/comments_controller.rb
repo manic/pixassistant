@@ -3,7 +3,10 @@ class Blog::CommentsController < ApplicationController
   before_filter :login_required
 
   def index
-    ret = JSON.parse(current_user.pixnet.client.get('/blog/comments?per_page=10').body)
+    @per_page = params[:per_page] || 10
+    @filter = params[:filter] || 'nospam'
+    args = "?per_page=#{@per_page}&filter=#{@filter}"
+    ret = JSON.parse(current_user.pixnet.client.get("/blog/comments#{args}").body)
     @comments = ret["comments"]
   end
 
