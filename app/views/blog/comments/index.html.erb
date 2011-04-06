@@ -4,8 +4,8 @@
     <div class="panel-links">
       <div class="panel-selector">
         <select name="master">
-          <option value="?master=Manic">Manic / 沒力小僧，羞道人的糟糕日誌</option>
-          <option value="?master=manictest1">manictest1 / test blog for Manica</option>
+          <!--<option value="?master=Manic">Manic / 沒力小僧，羞道人的糟糕日誌</option>
+          <option value="?master=manictest1">manictest1 / test blog for Manica</option>//-->
         </select>
       </div>
       <div class="panel-group">
@@ -45,11 +45,10 @@
     <div id="function-bar">
       <ul class="filter-bar-ul">
         <li class="filters-li">
-        <select class="mini-select" id="filter" onchange="pix.change_display(this.value); ">
+        <select class="mini-select" id="filter">
           <option value="all">顯示所有迴響</option>
           <option value="nospam">只顯示非廣告迴響</option>
           <option value="noreply">只顯示未回覆的迴響</option>
-
           <option value="whisper">只顯示悄悄話迴響</option>
         </select>
         </li>
@@ -121,10 +120,13 @@
 <script type="text/javascript">
 <!--
 $(function() {
+  var base_url = '/blog/comments';
+
   $('.do-reply, .cancel-reply').click(function() {
     $(this).parents('tr').find('.do-reply, .reply-area').toggle();
     return false;
   });
+
   $('.save-reply').click(function() {
     var id = $(this).data('id');
     var action = "/blog/comments/" + id + "/reply",
@@ -143,6 +145,12 @@ $(function() {
     }, 'json');
     return false;
   });
+
+  $('#filter').change(function() {
+    document.location.href = base_url + '?filter=' + $(this).val();
+  });
+
+  $('#filter').val('<%= @filter %>');
 });
 //-->
 </script>
