@@ -103,6 +103,11 @@ class User < ActiveRecord::Base
     return true
   end
 
+  def get_masters
+    masters = Assistance.where(:assistant_name => self.login).map { |c| c.master }
+    (masters << self).uniq
+  end
+
   protected
   def service(name)
     return "#{pixnet_link}/#{name}"

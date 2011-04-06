@@ -28,4 +28,8 @@ class Assistance < ActiveRecord::Base
       record.errors.add attr, '不是 PIXNET 的使用者'
     end
   end
+
+  def assistant_name=(value)
+    write_attribute :assistant_name, (value ? value.downcase : nil)
+  end
 end

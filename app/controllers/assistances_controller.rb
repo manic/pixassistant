@@ -1,6 +1,7 @@
 class AssistancesController < ApplicationController
 
   before_filter :login_required
+  before_filter :store_location, :only => [:index]
 
   def index
     if current_user.pixnet.present?

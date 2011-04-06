@@ -2,10 +2,7 @@
     <h2 id="current-panel">部落格後台</h2>
     <div class="panel-links">
       <div class="panel-selector">
-        <select name="master">
-          <!--<option value="?master=Manic">Manic / 沒力小僧，羞道人的糟糕日誌</option>
-          <option value="?master=manictest1">manictest1 / test blog for Manica</option>//-->
-        </select>
+        <%= render :partial => "common/master" %>
       </div>
       <div class="panel-group">
         <h3 id="panel-blog-post"><span class="hide">文章管理</span></h3>

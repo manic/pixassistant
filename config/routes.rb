@@ -3,6 +3,8 @@ Pixassistant::Application.routes.draw do
   match 'login' => 'openids#pixnet', :as => :login
   match 'logout' => 'openids#logout', :as => :logout
 
+  match 'home/master' => 'home#master'
+
   resources :oauth_consumers do
     get "callback", :on => :member
   end

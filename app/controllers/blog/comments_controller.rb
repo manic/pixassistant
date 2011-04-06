@@ -1,6 +1,7 @@
 class Blog::CommentsController < ApplicationController
 
-  before_filter :login_required, :get_master
+  before_filter :login_required, :check_master
+  before_filter :store_location, :only => [:index]
 
   def index
     if @master.pixnet.present?
@@ -54,8 +55,21 @@ class Blog::CommentsController < ApplicationController
     end
   end
 
-  def get_master
-    @master = current_user
+  def check_master
+    unless session[:master].present? #沒設定就直接指定為本人
+      @master = current_user
+      return true
+    end
+
+    master_id = session[:master] || current_user.id
+    assistance = Assistance.where(:master_id => master_id).named(current_user.login).first
+    if assistance.present? && assistance.perm_blog_comment
+      @master = assistance.master
+    elsif master_id == current_user.id
+      @master = current_user
+    else
+      redirect_to('/')
+    end
   end
 
 end

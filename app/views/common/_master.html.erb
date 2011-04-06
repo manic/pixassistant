@@ -1,0 +1,15 @@
+<select name="master" id="master">
+  <% current_user.get_masters.each do |master| %>
+    <option value="<%= master.login %>"><%= master.login %></option>
+  <% end %>
+</select>
+<script type="text/javascript">
+<!--
+$(function() {
+  $('#master').val('<%= session["master_login"] || current_user.login %>');
+  $('#master').live('change', function() {
+    document.location.href = '/home/master?user=' + $(this).val();
+  });
+})
+//-->
+</script>
