@@ -106,16 +106,15 @@
 </div>
 <div id="footer">
   <div id="page-selector" style="float:left;">
-    <form id="page-form" action="/blog/comment" method="get">
-      <input type="hidden" name="realpage" value="1">
+    <form id="page-form" action="/blog/comments?filter=<%= @filter %>" method="get">
       <ul>
-        <li><a href="/blog/comment?filter=nospam" class="page-select-first" onclick="return pix.change_page(1);"><span>最前頁</span></a></li>
-        <li><a href="/blog/comment?filter=nospam&amp;page=1" class="page-select-prev" onclick="return pix.change_page_delta(-1);"><span>上一頁</span></a></li>
-        <li><input type="text" value="1" name="page" class="current"><input type="text" value="/35" class="total" readonly="readonly" id="totalpage"></li>
-        <li><a href="/blog/comment?filter=nospam&amp;page=2" class="page-select-next" onclick="return pix.change_page_delta(1);"><span>下一頁</span></a></li>
-        <li><a href="/blog/comment?filter=nospam&amp;page=35" class="page-select-last" onclick="return pix.change_page(-1)"><span>最末頁</span></a></li>
+        <li><a href="/blog/comments?filter=<%= @filter %>" class="page-select-first"><span>最前頁</span></a></li>
+        <li><a href="/blog/comments?filter=<%= @filter %>&amp;page=<%= @page > 1 ? @page - 1 : 1 %>" class="page-select-prev" onclick="return pix.change_page_delta(-1);"><span>上一頁</span></a></li>
+        <li><input type="text" value="<%= @page %>" name="page" class="current"><input type="text" value="/<%= @total_page %>" class="total" readonly="readonly" id="totalpage"></li>
+        <li><a href="/blog/comments?filter=<%= @filter %>&amp;page=<%= @page < @total_page ? @page + 1 : @total_page %>" class="page-select-next" onclick="return pix.change_page_delta(1);"><span>下一頁</span></a></li>
+        <li><a href="/blog/comments?filter=<%= @filter %>&amp;page=<%= @total_page %>" class="page-select-last" onclick="return pix.change_page(-1)"><span>最末頁</span></a></li>
       </ul>
-      <input type="submit">
+        <input type="submit" style="left: -1000px; top: -1000px; position: absolute;">
     </form>
   </div>
 </div>

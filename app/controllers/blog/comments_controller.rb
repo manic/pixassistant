@@ -3,11 +3,13 @@ class Blog::CommentsController < ApplicationController
   before_filter :login_required
 
   def index
-    @per_page = params[:per_page] || 10
+    @page = params[:page] ? params[:page].to_i : 1
+    @per_page = params[:per_page] ? params[:per_page].to_i : 20
     @filter = params[:filter] || 'nospam'
-    args = "?per_page=#{@per_page}&filter=#{@filter}"
+    args = "?per_page=#{@per_page}&filter=#{@filter}&page=#{@page}"
     ret = JSON.parse(current_user.pixnet.client.get("/blog/comments#{args}").body)
     @comments = ret["comments"]
+    @total_page = (ret['total'].to_f / @per_page).ceil.to_i
   end
 
   def reply
