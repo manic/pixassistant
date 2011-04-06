@@ -12,7 +12,9 @@ Pixassistant::Application.routes.draw do
   namespace "blog" do
     resources :comments do
       post "reply", :on => :member
+      post "mark_ham", :on => :member
       post "destroy_batch", :on => :collection
+      post "mark_spam_batch", :on => :collection
     end
   end
 

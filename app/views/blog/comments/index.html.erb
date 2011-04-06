@@ -71,7 +71,7 @@
         </button>
         </li>
         <li class="functions-li">
-        <button type="button" title="檢舉廣告留言" id="btnReportSpam">
+        <button type="button" title="檢舉廣告留言" id="btn-spam">
           <span><img src="//s.pixfs.net/panel/images/icons/flag_red.gif" alt="檢舉廣告留言">檢舉廣告留言</span>
         </button>
         </li>
@@ -120,14 +120,23 @@
 <script type="text/javascript">
 <!--
 $(function() {
+
+  function get_ids() {
+    var ids = '';
+    $(':checkbox.comment:checked').each(function() {
+      ids += $(this).val() + ',';
+    });
+    return ids;
+  }
+
   var base_url = '/blog/comments';
 
-  $('.do-reply, .cancel-reply').click(function() {
+  $('.do-reply, .cancel-reply').live('click', function() {
     $(this).parents('tr').find('.do-reply, .reply-area').toggle();
     return false;
   });
 
-  $('.save-reply').click(function() {
+  $('.save-reply').live('click', function() {
     var id = $(this).data('id');
     var action = "/blog/comments/" + id + "/reply",
         $tr = $(this).parents('tr'),
@@ -150,12 +159,9 @@ $(function() {
     if (!confirm('你確定要刪除嗎？')) {
       return false;
     }
-    var ids = '', action = '/blog/comments/destroy_batch',
+    var ids = get_ids(), action = '/blog/comments/destroy_batch',
         csrf_token = $('meta[name=csrf-token]').attr('content'),
         csrf_param = $('meta[name=csrf-param]').attr('content');
-    $(':checkbox.comment:checked').each(function() {
-      ids += $(this).val() + ',';
-    });
     $.post(action, {
       csrf_param: csrf_token,
       "ids": ids
@@ -163,6 +169,27 @@ $(function() {
       document.location.reload();
     }, 'json');
   });
+
+  $('#btn-spam').click(function(){
+    var ids = get_ids(), action = '/blog/comments/mark_spam_batch',
+        csrf_token = $('meta[name=csrf-token]').attr('content'),
+        csrf_param = $('meta[name=csrf-param]').attr('content');
+    $.post(action, {
+      csrf_param: csrf_token,
+      "ids": ids
+    }, function(ret) {
+      document.location.reload();
+    }, 'json');
+  });
+
+  $('.btn-ham').live('click', function() {
+    var id = $(this).data('id'),
+    csrf_token = $('meta[name=csrf-token]').attr('content'),
+    csrf_param = $('meta[name=csrf-param]').attr('content');
+    $.post('/blog/comments/' + id + '/mark_ham', { csrf_param: csrf_token }, function(ret) {
+      document.location.reload();
+    }, 'json');
+  })
 
   $('#filter').change(function() {
     document.location.href = base_url + '?filter=' + $(this).val();

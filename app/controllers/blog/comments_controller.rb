@@ -29,4 +29,23 @@ class Blog::CommentsController < ApplicationController
     end
   end
 
+  def mark_spam_batch
+    ids = params[:ids]
+    ret = nil
+    ids.split(',').each do |id|
+      ret = JSON.parse(current_user.pixnet.client.post("/blog/comments/#{id}/mark_spam").body)
+    end
+    respond_to do |format|
+      format.js { render :json => ret.to_json }
+    end
+  end
+
+  def mark_ham
+    id = params[:id]
+    ret = JSON.parse(current_user.pixnet.client.post("/blog/comments/#{id}/mark_ham").body)
+    respond_to do |format|
+      format.js { render :json => ret.to_json }
+    end
+  end
+
 end

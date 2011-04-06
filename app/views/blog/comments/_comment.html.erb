@@ -17,7 +17,7 @@
     <% if comment['is_spam'] != 0 %>
       <div class="post-spam" style="padding-bottom:10px;">
         <div class="gray">此留言被標示為廣告留言 － </div>
-        <button class="positive" type="button" onclick="$('.comment').removeAttr('checked'); $(this).parents('tr').find(':checkbox').attr('checked', 'checked'); pix.p.blog.markAsHam();"><span><img alt="這不是廣告留言" src="//s.pixfs.net/panel/images/icons/flag_green.gif"/>這不是廣告留言</span></button>
+        <button class="positive btn-ham" type="button" data-id="<%= comment['id'] %>"><span><img alt="這不是廣告留言" src="//s.pixfs.net/panel/images/icons/flag_green.gif"/>這不是廣告留言</span></button>
       </div>
     <% end %>
     <div class="post-content">
