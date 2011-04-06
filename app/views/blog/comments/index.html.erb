@@ -147,6 +147,21 @@ $(function() {
   });
 
   $('#btn-delete').click(function(){
+    if (!confirm('你確定要刪除嗎？')) {
+      return false;
+    }
+    var ids = '', action = '/blog/comments/destroy_batch',
+        csrf_token = $('meta[name=csrf-token]').attr('content'),
+        csrf_param = $('meta[name=csrf-param]').attr('content');
+    $(':checkbox.comment:checked').each(function() {
+      ids += $(this).val() + ',';
+    });
+    $.post(action, {
+      csrf_param: csrf_token,
+      "ids": ids
+    }, function(ret) {
+      document.location.reload();
+    }, 'json');
   });
 
   $('#filter').change(function() {

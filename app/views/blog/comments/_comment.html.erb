@@ -1,6 +1,6 @@
 <tr <%= 'class="spam"'.html_safe if comment['is_spam'] != 0 %> data-id="<%= comment['id'] %>">
   <td class="cell-checkbox">
-    <input type="checkbox" class="comment" name="blogcomment_id[]" value="<%= comment["id"] %>">
+    <input type="checkbox" class="comment" name="id[]" value="<%= comment["id"] %>">
   </td>
   <td class="cell-avatar"><div>
       <%= comment_author_avatar(comment) %>

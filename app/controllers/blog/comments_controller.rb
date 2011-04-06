@@ -18,4 +18,15 @@ class Blog::CommentsController < ApplicationController
     end
   end
 
+  def destroy_batch
+    ids = params[:ids]
+    ret = nil
+    ids.split(',').each do |id|
+      ret = JSON.parse(current_user.pixnet.client.post("/blog/comments/#{id}", {:_method => "delete"}).body)
+    end
+    respond_to do |format|
+      format.js { render :json => ret.to_json }
+    end
+  end
+
 end
