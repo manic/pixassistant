@@ -68,6 +68,7 @@ class Blog::CommentsController < ApplicationController
     elsif master_id == current_user.id
       @master = current_user
     else
+      flash[:error] = '無權以此人身份執行此動作。'
       redirect_to('/')
     end
   end

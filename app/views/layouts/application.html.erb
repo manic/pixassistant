@@ -30,5 +30,17 @@
       </div>
     </div>
     <%= yield %>
+<script type="text/javascript">
+<!--
+$(function() {
+  <% if flash[:notice] %>
+    alert('注意: <%= flash[:notice] %>');
+  <% end %>
+  <% if flash[:error] %>
+    alert('錯誤: <%= flash[:error] %>');
+  <% end %>
+});
+//-->
+</script>
   </body>
 </html>
