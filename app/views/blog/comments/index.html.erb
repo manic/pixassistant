@@ -44,8 +44,8 @@
         </button>
         <div class="drop-menu default" id="set-comments-menu">
           <ul>
-            <li><a href="#" onclick="pix.openComment(false); return false;"><span><img src="//s.pixfs.net/panel/images/icons/lock.gif" alt=""></span>設為悄悄話</a></li>
-            <li><a href="#" onclick="pix.openComment(true); return false;">取消悄悄話</a></li>
+            <li><a href="javascript:;" id="link-close"><span><img src="//s.pixfs.net/panel/images/icons/lock.gif" alt=""></span>設為悄悄話</a></li>
+            <li><a href="javascript:;" id="link-open">取消悄悄話</a></li>
           </ul>
         </div>
         </li>
@@ -114,7 +114,21 @@ $(function() {
     return ids;
   }
 
-  var base_url = '/blog/comments';
+  function post_batch(action) {
+    var ids = get_ids(), csrf_token = $('meta[name=csrf-token]').attr('content'),
+    csrf_param = $('meta[name=csrf-param]').attr('content');
+    $.post(action, {
+      csrf_param: csrf_token,
+      "ids": ids
+    }, function(ret) {
+      document.location.reload();
+    }, 'json');
+  }
+
+  var base_url = '/blog/comments',
+  csrf_token = $('meta[name=csrf-token]').attr('content'),
+  csrf_param = $('meta[name=csrf-param]').attr('content');
+
 
   $('.do-reply, .cancel-reply').live('click', function() {
     $(this).parents('tr').find('.do-reply, .reply-area').toggle();
@@ -125,8 +139,6 @@ $(function() {
     var id = $(this).data('id');
     var action = "/blog/comments/" + id + "/reply",
         $tr = $(this).parents('tr'),
-        csrf_token = $('meta[name=csrf-token]').attr('content'),
-        csrf_param = $('meta[name=csrf-param]').attr('content'),
         reply_body = $('textarea[data-id="' + id +  '"]').val();
     $.post(action, {
       csrf_param: csrf_token,
@@ -144,27 +156,21 @@ $(function() {
     if (!confirm('你確定要刪除嗎？')) {
       return false;
     }
-    var ids = get_ids(), action = '/blog/comments/destroy_batch',
-        csrf_token = $('meta[name=csrf-token]').attr('content'),
-        csrf_param = $('meta[name=csrf-param]').attr('content');
-    $.post(action, {
-      csrf_param: csrf_token,
-      "ids": ids
-    }, function(ret) {
-      document.location.reload();
-    }, 'json');
+    post_batch('/blog/comments/destroy_batch');
+  });
+
+  $('#link-open').click(function() {
+    post_batch('/blog/comments/open_batch');
+    return false;
+  });
+
+  $('#link-close').click(function() {
+    post_batch('/blog/comments/close_batch');
+    return false;
   });
 
   $('#btn-spam').click(function(){
-    var ids = get_ids(), action = '/blog/comments/mark_spam_batch',
-        csrf_token = $('meta[name=csrf-token]').attr('content'),
-        csrf_param = $('meta[name=csrf-param]').attr('content');
-    $.post(action, {
-      csrf_param: csrf_token,
-      "ids": ids
-    }, function(ret) {
-      document.location.reload();
-    }, 'json');
+    post_batch('/blog/comments/mark_spam_batch');
   });
 
   $('.btn-ham').live('click', function() {
@@ -186,6 +192,21 @@ $(function() {
   });
 
   $('#filter').val('<%= @filter %>');
+
+  /* 公用 function */
+  $("button.drop").live("click", function(f) {
+    f.stopPropagation();
+    f.cancelBubble = true;
+    var g = $("+ div.drop-menu", this);
+    var b = g.css("display");
+    $("button.drop + div.drop-menu").hide();
+    if ("none" == b) {
+      g.show()
+    }
+  });
+  $("body").click(function() {
+    $("button.drop + div.drop-menu").hide()
+  });
 });
 //-->
 </script>

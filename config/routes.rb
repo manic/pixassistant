@@ -17,6 +17,8 @@ Pixassistant::Application.routes.draw do
       post "mark_ham", :on => :member
       post "destroy_batch", :on => :collection
       post "mark_spam_batch", :on => :collection
+      post "open_batch", :on => :collection
+      post "close_batch", :on => :collection
     end
   end
 

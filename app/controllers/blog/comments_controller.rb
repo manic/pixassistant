@@ -37,14 +37,15 @@ class Blog::CommentsController < ApplicationController
   end
 
   def mark_spam_batch
-    ids = params[:ids]
-    ret = nil
-    ids.split(',').each do |id|
-      ret = JSON.parse(@master.pixnet.client.post("/blog/comments/#{id}/mark_spam").body)
-    end
-    respond_to do |format|
-      format.js { render :json => ret.to_json }
-    end
+    do_batch('/blog/comments/%s/mark_spam')
+  end
+
+  def open_batch
+    do_batch('/blog/comments/%s/open')
+  end
+
+  def close_batch
+    do_batch('/blog/comments/%s/close')
   end
 
   def mark_ham
@@ -55,6 +56,7 @@ class Blog::CommentsController < ApplicationController
     end
   end
 
+  protected
   def check_master
     unless session[:master].present? #沒設定就直接指定為本人
       @master = current_user
@@ -72,5 +74,17 @@ class Blog::CommentsController < ApplicationController
       redirect_to('/')
     end
   end
+
+  def do_batch(action)
+    ids = params[:ids]
+    ret = nil
+    ids.split(',').each do |id|
+      ret = JSON.parse(@master.pixnet.client.post(sprintf(action, id)).body)
+    end
+    respond_to do |format|
+      format.js { render :json => ret.to_json }
+    end
+  end
+
 
 end
