@@ -2,6 +2,7 @@ class AssistancesController < ApplicationController
 
   before_filter :login_required
   before_filter :store_location, :only => [:index]
+  before_filter :find_assistance, :only => [:update, :destroy]
 
   def index
     if current_user.pixnet.present?
@@ -27,15 +28,17 @@ class AssistancesController < ApplicationController
   end
 
   def update
-    @assistance = Assistance.find(params[:id])
     @assistance.update_attributes(params[:assistance])
     redirect_to assistance_path(@assistance)
   end
 
   def destroy
-    @assistance = Assistance.find(params[:id])
     @assistance.destroy
     redirect_to assistances_path
   end
 
+  protected
+  def find_assistance
+    @assistance = Assistance.find(params[:id])
+  end
 end
