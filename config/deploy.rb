@@ -1,3 +1,5 @@
+require 'bundler/capistrano'
+
 set :application, "pixassistant"
 set :domain, 'miku.manic.tw'
 set :repository,  "git://github.com/manic/#{application}.git"
