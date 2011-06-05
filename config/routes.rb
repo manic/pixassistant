@@ -12,7 +12,9 @@ Pixassistant::Application.routes.draw do
   root :to => "home#index"
 
   namespace "plugin" do
-    resources :banners
+    resources :banners do
+      post "sort", :on => :collection
+    end
   end
 
   namespace "blog" do

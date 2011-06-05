@@ -1,3 +1,6 @@
+<% content_for(:header_js) do %>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
+<% end %>
 <div id="page-body" class="toolbar-hide">
   <%= render :partial => "sidepanel" %>
   <div id="workspace">
@@ -37,9 +40,9 @@
           <li>可以直接對圖片拖拉進行排序的動作</li>
         </ul>
       </div>
-      <ul>
+      <ul id="banners_list">
         <% @banners.each do |banner| %>
-          <li>
+          <li id="banner_<%= banner.id %>">
           <%= link_to(image_tag(banner.image), banner.url, :target => "_blank") %>
           <%= link_to('修改', edit_plugin_banner_path(banner)) %>
           <%= link_to('刪除', plugin_banner_path(banner), :method => "delete", :confirm => "你確定嗎") %>
@@ -54,4 +57,23 @@
   </div>
 </div>
 <script type="text/javascript">
+  <!--
+  $(function() {
+    $('#banners_list').sortable(
+      {
+        opacity: 0.4,
+        update: function() {
+          $.ajax({
+            type: 'post',
+            data: $('#banners_list').sortable('serialize'),
+            dataType: 'script',
+            complete: function(request) {
+              $('#banners_list').effect('highlight');
+            },
+            url: '<%= sort_plugin_banners_path %>'
+          });
+        }
+      });
+  });
+  //-->
 </script>

@@ -8,6 +8,14 @@ class Plugin::BannersController < ApplicationController
     @banners = @master.banners
   end
 
+  def sort
+    @master.banners.each do |banner|
+      banner.position = params[:banner].index(banner.id.to_s) + 1
+      banner.save
+    end
+    render :nothing => true
+  end
+
   def new
     @banner = @master.banners.new
   end
