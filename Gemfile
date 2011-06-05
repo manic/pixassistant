@@ -16,6 +16,7 @@ gem "ruby-openid"
 gem "rack-openid"
 gem "oauth"
 gem "oauth-plugin", "0.4.0.pre1"
+gem "dalli"
 
 # Paginator
 # gem "kaminari"
