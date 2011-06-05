@@ -1,6 +1,7 @@
 class Plugin::BannersController < ApplicationController
 
-  before_filter :login_required, :check_master
+  before_filter :login_required, :except => [:api]
+  before_filter :check_master, :except => [:api]
   before_filter :store_location, :only => [:index]
   before_filter :find_banner, :only => [:edit, :udpate, :destroy]
 
@@ -14,6 +15,12 @@ class Plugin::BannersController < ApplicationController
       banner.save
     end
     render :nothing => true
+  end
+
+  def api
+    user = User.find_by_login(params[:user].to_s)
+    render :nothing => true unless user.present?
+    render :json => user.banners.select([:position, :image, :url]).to_json
   end
 
   def new

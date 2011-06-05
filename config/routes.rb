@@ -14,6 +14,7 @@ Pixassistant::Application.routes.draw do
   namespace "plugin" do
     resources :banners do
       post "sort", :on => :collection
+      get "api", :on => :collection
     end
   end
 
