@@ -19,7 +19,8 @@ class Plugin::BannersController < ApplicationController
 
   def api
     user = User.find_by_login(params[:user].to_s)
-    render :nothing => true unless user.present?
+    render :json => [].to_json unless user.present?
+    render :json => [].to_json unless user.banners.present?
     banners = Rails.cache.fetch("banners_#{user.id}", :expires_in => 10.minute) do
       user.banners.select([:position, :image, :url]).to_json
     end
