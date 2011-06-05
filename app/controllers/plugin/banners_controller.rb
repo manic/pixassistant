@@ -21,13 +21,13 @@ class Plugin::BannersController < ApplicationController
   def api
     user = User.find_by_login(params[:user].to_s)
     unless user.present? && user.banners.present?
-      render :json => [].to_json
+      render_json([].to_json)
       return true
     end
     banners = Rails.cache.fetch("banners_#{user.id}", :expires_in => 10.minute) do
       user.banners.select([:position, :image, :url]).to_json
     end
-    render :json => banners
+    render_json(banners)
   end
 
   def new
@@ -83,6 +83,14 @@ class Plugin::BannersController < ApplicationController
 
   def clean_cache(user)
     Rails.cache.delete("banners_#{user.id}")
+  end
+
+  def render_json(json)
+    if params[:callback]
+      render :js => "#{params[:callback]}(#{json})"
+    else
+      render :json => json
+    end
   end
 
 end
