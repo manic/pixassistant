@@ -14,6 +14,7 @@ class Plugin::BannersController < ApplicationController
       banner.position = params[:banner].index(banner.id.to_s) + 1
       banner.save
     end
+    clean_cache
     render :nothing => true
   end
 
@@ -36,6 +37,7 @@ class Plugin::BannersController < ApplicationController
   def create
     @banner = @master.banners.build(params[:banner])
     if @banner.save
+      clean_cache
       redirect_to plugin_banners_path
     end
   end
@@ -45,11 +47,13 @@ class Plugin::BannersController < ApplicationController
 
   def update
     @banner.update_attributes(params[:banner])
+    clean_cache
     redirect_to plugin_banners_path
   end
 
   def destroy
     @banner.destroy
+    clean_cache
     redirect_to plugin_banners_path
   end
 
@@ -75,6 +79,10 @@ class Plugin::BannersController < ApplicationController
       flash[:error] = '無權以此人身份執行此動作。'
       redirect_to('/')
     end
+  end
+
+  def clean_cache
+    Rails.cache.delete("banners_#{user.id}")
   end
 
 end
