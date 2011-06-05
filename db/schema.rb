@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110330092315) do
+ActiveRecord::Schema.define(:version => 20110605060630) do
 
   create_table "assistances", :force => true do |t|
     t.integer  "master_id"
@@ -26,6 +26,17 @@ ActiveRecord::Schema.define(:version => 20110330092315) do
   add_index "assistances", ["master_id", "assistant_id"], :name => "index_assistances_on_master_id_and_assistant_id"
   add_index "assistances", ["master_id", "assistant_name"], :name => "index_assistances_on_master_id_and_assistant_name", :unique => true
   add_index "assistances", ["master_id"], :name => "index_assistances_on_master_id"
+
+  create_table "banners", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "image"
+    t.string   "url"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "banners", ["user_id"], :name => "index_banners_on_user_id"
 
   create_table "consumer_tokens", :force => true do |t|
     t.integer  "user_id"

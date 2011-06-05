@@ -11,6 +11,10 @@ Pixassistant::Application.routes.draw do
 
   root :to => "home#index"
 
+  namespace "plugin" do
+    resources :banners
+  end
+
   namespace "blog" do
     resources :comments do
       post "reply", :on => :member

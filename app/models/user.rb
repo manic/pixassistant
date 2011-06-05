@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
 
   has_one  :pixnet, :class_name => "PixnetToken", :dependent=>:destroy
   has_many :assistances, :foreign_key => :master_id
+  has_many :banners
 
   def self.create_from_pixnet_openid(registration, identity_url)
     User.new.tap do |user|
