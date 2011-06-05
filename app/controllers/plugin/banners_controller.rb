@@ -14,7 +14,7 @@ class Plugin::BannersController < ApplicationController
       banner.position = params[:banner].index(banner.id.to_s) + 1
       banner.save
     end
-    clean_cache
+    clean_cache(@master)
     render :nothing => true
   end
 
@@ -37,7 +37,7 @@ class Plugin::BannersController < ApplicationController
   def create
     @banner = @master.banners.build(params[:banner])
     if @banner.save
-      clean_cache
+      clean_cache(@master)
       redirect_to plugin_banners_path
     end
   end
@@ -47,13 +47,13 @@ class Plugin::BannersController < ApplicationController
 
   def update
     @banner.update_attributes(params[:banner])
-    clean_cache
+    clean_cache(@master)
     redirect_to plugin_banners_path
   end
 
   def destroy
     @banner.destroy
-    clean_cache
+    clean_cache(@master)
     redirect_to plugin_banners_path
   end
 
@@ -81,7 +81,7 @@ class Plugin::BannersController < ApplicationController
     end
   end
 
-  def clean_cache
+  def clean_cache(user)
     Rails.cache.delete("banners_#{user.id}")
   end
 
