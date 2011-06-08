@@ -3,7 +3,7 @@ class Plugin::BannersController < ApplicationController
   before_filter :login_required, :except => [:api]
   before_filter :check_master, :except => [:api]
   before_filter :store_location, :only => [:index]
-  before_filter :find_banner, :only => [:edit, :udpate, :destroy]
+  before_filter :find_banner, :only => [:edit, :update, :destroy]
 
   def index
     @banners = @master.banners
